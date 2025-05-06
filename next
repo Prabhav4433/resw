@@ -1,0 +1,188 @@
+// src/pages/_app.js
+import '@/styles/globals.css';
+import { config } from '@fortawesome/fontawesome-svg-core';
+import '@fortawesome/fontawesome-svg-core/styles.css';
+config.autoAddCss = false;
+
+function MyApp({ Component, pageProps }) {
+  return <Component {...pageProps} />;
+}
+
+export default MyApp;
+
+// src/pages/index.js
+import Head from 'next/head';
+import Header from '@/components/Header';
+import Hero from '@/components/Hero';
+import Education from '@/components/Education';
+import Experience from '@/components/Experience';
+import Skills from '@/components/Skills';
+import Publications from '@/components/Publications';
+import Additional from '@/components/Additional';
+import Contact from '@/components/Contact';
+import Footer from '@/components/Footer';
+
+export default function Home() {
+  return (
+    <>
+      <Head>
+        <title>Prabhav Vishwas Sharma - Resume</title>
+        <meta name="description" content="Professional resume of Prabhav Vishwas Sharma" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <Header />
+      <main>
+        <Hero />
+        <Education />
+        <Experience />
+        <Skills />
+        <Publications />
+        <Additional />
+        <Contact />
+      </main>
+      <Footer />
+    </>
+  );
+}
+
+// src/components/Header.js
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import styles from '@/styles/Home.module.css';
+
+export default function Header() {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return (
+    <header className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}>
+      <div className={styles.container}>
+        <nav className={styles.nav}>
+          <Link href="/" className={styles.logo}>
+            PVS
+          </Link>
+          <ul className={styles.navLinks}>
+            <li><Link href="#about">About</Link></li>
+            <li><Link href="#education">Education</Link></li>
+            <li><Link href="#experience">Experience</Link></li>
+            <li><Link href="#skills">Skills</Link></li>
+            <li><Link href="#publications">Publications</Link></li>
+            <li><Link href="#additional">Additional</Link></li>
+            <li><Link href="#contact">Contact</Link></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+  );
+}
+
+// src/components/Hero.js
+import { motion } from 'framer-motion';
+import styles from '@/styles/Home.module.css';
+import FlyingPlane from './FlyingPlane';
+import FoodAnimation from './FoodAnimation';
+
+export default function Hero() {
+  return (
+    <section className={styles.hero} id="about">
+      <div className={styles.container}>
+        <div className={styles.heroContent}>
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+          >
+            Prabhav Vishwas Sharma
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+          >
+            Motivated and results-driven individual with leadership experience in non-profit organizations and a strong academic background, seeking opportunities to make a positive impact in dynamic environments.
+          </motion.p>
+          <motion.a
+            href="#contact"
+            className={styles.heroBtn}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 1.1 }}
+          >
+            Get in Touch
+          </motion.a>
+        </div>
+      </div>
+      
+      {/* Background animations */}
+      <FlyingPlane />
+      <FlyingPlane delay={5} />
+      <FlyingPlane delay={10} />
+      
+      <FoodAnimation />
+      <FoodAnimation delay={3} />
+      <FoodAnimation delay={6} />
+      <FoodAnimation delay={9} />
+      <FoodAnimation delay={12} />
+    </section>
+  );
+}
+
+// src/components/FlyingPlane.js
+import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlane } from '@fortawesome/free-solid-svg-icons';
+import styles from '@/styles/Home.module.css';
+
+export default function FlyingPlane({ delay = 0 }) {
+  const [position, setPosition] = useState({ y: 0, x: -60 });
+  
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const startPositionY = Math.random() * window.innerHeight * 0.7;
+      setPosition({ y: startPositionY, x: -60 });
+    }
+  }, []);
+
+  return (
+    <motion.div
+      className={styles.plane}
+      initial={{ 
+        x: -60, 
+        y: position.y, 
+        rotate: 15 
+      }}
+      animate={{ 
+        x: typeof window !== 'undefined' ? window.innerWidth + 60 : 1500,
+        y: position.y + (Math.random() * 200 - 100)
+      }}
+      transition={{ 
+        delay: delay,
+        duration: 25 + Math.random() * 20,
+        ease: "linear",
+        repeat: Infinity,
+        repeatDelay: 2
+      }}
+    >
+      <FontAwesomeIcon icon={faPlane} size="2x" color="var(--accent)" />
+    </motion.div>
+  );
+}
+
+// src/components/FoodAnimation.js
+import { motion } from 'framer-motion';
+import styles from '@/styles/Home.module.css';
+
+export default function FoodAnimation({ delay = 0 }) {
+  const foods = ['🍔', '🍕', '🍣', '🍜', '🍲', '🥘', '🥗', '🍝', '🌮', '🍛'];
+  const randomFood = foods[Math.floor(Math.random() * foods.length)];
+  const randomX = typeof window !== 'undefined' ? Math.random() * window.innerWidth : Math.random() * 1000
