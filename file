@@ -1,0 +1,47 @@
+# Next.js Resume Website Project Setup
+
+This guide will help you set up the Next.js project structure for your resume website and deploy it to Vercel.
+
+## Step 1: Create a new Next.js project
+
+```bash
+npx create-next-app@latest resume-website
+cd resume-website
+```
+
+## Step 2: Install required dependencies
+
+```bash
+npm install framer-motion react-intersection-observer @fortawesome/react-fontawesome @fortawesome/free-solid-svg-icons @fortawesome/free-brands-svg-icons
+```
+
+## Step 3: Project Structure
+
+Create the following file structure:
+
+```
+resume-website/
+├── public/
+│   └── images/
+├── src/
+│   ├── components/
+│   │   ├── Header.js
+│   │   ├── Hero.js
+│   │   ├── Education.js
+│   │   ├── Experience.js
+│   │   ├── Skills.js
+│   │   ├── Publications.js
+│   │   ├── Additional.js
+│   │   ├── Contact.js
+│   │   ├── Footer.js
+│   │   ├── FlyingPlane.js
+│   │   └── FoodAnimation.js
+│   ├── styles/
+│   │   ├── globals.css
+│   │   └── Home.module.css
+│   └── pages/
+│       ├── index.js
+│       └── _app.js
+```
+
+## Step 4: Create the main page components
